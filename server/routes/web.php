@@ -14,9 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $people = App\Models\People::all();
+    return view('index',compact('people'));
+});
+Route::get('/logout', function(){
+    session()->pull('email');
+    session()->pull('userId');
+    $people = App\Models\People::all();
+    return view('index',compact('people'));
 });
 Route::get('/people','App\Http\Controllers\PeopleController@getAllCharacters')->name('getAllCharacter');
 Route::post('/signin','App\Http\Controllers\UserController@signin')->middleware('web')->name('signin');
 Route::post('/signup', 'App\Http\Controllers\UserController@signup')->middleware('web')->name('signup');
-Route::post('/vote', 'App\Http\Controllers\VoteController@vote')->middleware('web')->name('vote');
+Route::get('/vote', 'App\Http\Controllers\VoteController@vote')->middleware('web')->name('vote');

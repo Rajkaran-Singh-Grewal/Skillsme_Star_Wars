@@ -19,17 +19,21 @@ class UserController extends Controller
                 'message' => 'No such user exists'
             ],401);
         }else{
-            if(Hash::check($password,$user->password)){
+            if(Hash::check($password,$user->password)){    
+                session()->put('email',$user->email);
+                session()->put('userId',$user->id);
                 return response([
                     'success' => true,
                     'message' => 'User Logged in successfully',
-                    'user' => $user
+                    'email'   => $user->email,
+                    'userId'  => $user->id
                 ],200);
             }else{
                 return response([
                     'success' => false,
                     'message' => 'User password mismatched'
                 ],401);
+                
             }
         }
     }
@@ -37,7 +41,7 @@ class UserController extends Controller
         $email = $request->email;
         $password = $request->password;
         $confirmPassword = $request->confirmPassword;
-        $ipAddress = $request->ipAddress;
+        $ipAddress = $_SERVER["REMOTE_ADDR"];
         if($password != $confirmPassword){
             return response([
                 'success' => false,
@@ -59,10 +63,13 @@ class UserController extends Controller
             ],401);
         }
         DB::commit();
+        session()->put('email',$user->email);
+        session()->put('userId',$user->id);
         return response([
             'success' => true,
             'message' => 'User created successfully',
-            'user'    => $user
+            'email'   => $user->email,
+            'userId'  => $user->id
         ],200);
     }
 }
