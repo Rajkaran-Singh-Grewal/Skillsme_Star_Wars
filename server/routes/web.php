@@ -17,3 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/people','App\Http\Controllers\PeopleController@getAllCharacters')->name('getAllCharacter');
+Route::post('/signin','App\Http\Controllers\UserController@signin')->name('signin');
+Route::post('/signup', 'App\Http\Controllers\UserController@signup')->name('signup');
