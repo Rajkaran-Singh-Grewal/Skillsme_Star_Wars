@@ -17,5 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/people','App\Http\Controllers\PeopleController@getAllCharacters')->name('getAllCharacter');
-Route::post('/signin','App\Http\Controllers\UserController@signin')->name('signin');
-Route::post('/signup', 'App\Http\Controllers\UserController@signup')->name('signup');
+Route::post('/signin','App\Http\Controllers\UserController@signin')->middleware('web')->name('signin');
+Route::post('/signup', 'App\Http\Controllers\UserController@signup')->middleware('web')->name('signup');
+Route::post('/vote', 'App\Http\Controllers\VoteController@vote')->middleware('web')->name('vote');
