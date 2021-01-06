@@ -28,6 +28,32 @@ class VoteController extends Controller
                 'message' => 'Vote has been sent'
             ],200);
         }else{
+            return response([
+                'success' => false,
+                'message' => 'You have already voted, one vote per ip address'
+            ],401);
+        }
+    }
+    public function voteAllChange(Request $request){
+        $userId = $request->userId;
+        $personId = $request->personId;
+        $ipAddress = $_SERVER["REMOTE_ADDR"];
+        $user = User::where('id','=',$userId)->first();
+        if($user != null){
+            $vote = Vote::where('ipaddress','=',$ipAddress)->orWhere('ipaddress','=',$user->ipaddress)->first();
+        }else{
+            $vote = Vote::where('ipaddress','=',$ipAddress)->first();
+        }
+        if($vote == null){
+            $vote = Vote::create([
+                'personid' => $personId,
+                'ipaddress' => $user != null ? $user->ipaddress : $ipAddress
+            ]);
+            return response([
+                'success' => true,
+                'message' => 'Vote has been sent'
+            ],200);
+        }else{
             if($vote->personid == $personId){
                 return response([
                     'success' => false,

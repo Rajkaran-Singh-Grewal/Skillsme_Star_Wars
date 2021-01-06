@@ -27,3 +27,4 @@ Route::get('/people','App\Http\Controllers\PeopleController@getAllCharacters')->
 Route::post('/signin','App\Http\Controllers\UserController@signin')->middleware('web')->name('signin');
 Route::post('/signup', 'App\Http\Controllers\UserController@signup')->middleware('web')->name('signup');
 Route::get('/vote', 'App\Http\Controllers\VoteController@vote')->middleware('web')->name('vote');
+Route::get('/vote/changeable','App\Http\Controllers\VoteController@vote')->middleware('web')->name('voteChangable');
