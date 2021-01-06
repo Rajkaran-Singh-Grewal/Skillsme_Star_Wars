@@ -11,14 +11,15 @@
     <input type="hidden" id="user_email" name="email" value="{{!empty(session('email'))?session('email'):0}}" />
     <input type="hidden" id="user_id" name="id" value="{{!empty(session('userId'))?session('userId'):0}}" />
     </form>
-    <div id="signinButtonDiv">
+    <div id="signinButtonDiv" class="float-end me-3 mt-3">
         @if(!empty(session('email')))
+        <label><b>Welcome</b> {{session('email')}}</label>
         <button class="btn btn-danger" onclick="logout()">Logout</button>
         @else
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Sign in</button>
         @endif
     </div>
-    <ul class="row list-unstyled p-3">
+    <ul class="row list-unstyled p-3 float-start">
     @foreach($people as $person)
      <li class="col-3 pt-3">
         <div class="card">
@@ -134,7 +135,7 @@
                 let response = JSON.parse(event.target.responseText);
                 document.getElementById('user_email').value = response.email;
                 document.getElementById('user_id').value = response.userId;
-                document.getElementById('signinButtonDiv').innerHTML = `<button class="btn btn-danger" onclick="logout()">Logout</button>`;
+                document.getElementById('signinButtonDiv').innerHTML = `<label><b>Welcome</b> ${response.email}</label><button class="btn btn-danger" onclick="logout()">Logout</button>`;
                 document.getElementById('closeSignupBtn').click();
                 document.getElementById('closeLoginBtn').click();
             }else if(event.target.readyState == 4 && event.target.status == 401){
